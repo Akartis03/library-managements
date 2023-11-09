@@ -39,6 +39,8 @@ paths:
         - in: query
           name: queryPagination
           $ref: '#/components/parameters/queryPagination'
+      security:
+        - OAuth2: []
       responses:
         '200':
           description: The list of filtered books
@@ -61,6 +63,8 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/crupdateBook'
+      security:
+        - OAuth2: [admin]
       responses:
         '200':
           description: The list of created or updated books
@@ -88,9 +92,64 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/importBookEXCEL'
+      security:
+        - OAuth2: [admin]
       responses:
         '200':
           description: The list of books imported
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Book"
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/responses/properties/400"
+        '403':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/responses/properties/403"
+        '500':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/responses/properties/500"
+    get:
+      tags:
+        - Books 
+      summary: get list of book
+      operationId: getBook
+      parameters:
+        - in: path
+          name: size
+          required: true
+          description: get an book by page and size
+          schema:
+            $ref: '#/components/parameters/pathPagination/schema/properties/size' 
+        - in: path
+          name: page
+          required: true
+          description: get an book by page and size
+          schema:
+            $ref: '#/components/parameters/pathPagination/schema/properties/page' 
+      security:
+        - OAuth2: [admin]
+      responses:
+        '200':
+          description: The list of author imported
           content:
             application/json:
               schema:
@@ -140,7 +199,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/importAuthorEXCEL'
-
+      security:
+        - OAuth2: [admin]
       responses:
         '200':
           description: The list of author imported
@@ -235,6 +295,8 @@ paths:
           required: false
           schema: 
             type: string
+      security:
+        - OAuth2: []
       responses:
         '200':
           description: List of author
@@ -257,6 +319,8 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/Author'
+      security:
+        - OAuth2: [admin]
       responses:
         '200':
           description: The list of created or updated author
@@ -274,6 +338,8 @@ paths:
       responses:
         '200':
           description: All authors are deleted
+      security:
+        - OAuth2: [admin]
   /authors/{aId}:
     delete:
       tags:
@@ -287,6 +353,8 @@ paths:
           required: true
           schema: 
             type: string
+      security:
+        - OAuth2: [admin]
       responses:
         '200':
           description: author is deleted
@@ -309,6 +377,8 @@ paths:
           description: get an author by page and size
           schema:
             $ref: '#/components/parameters/pathPagination/schema/properties/page' 
+      security:
+        - OAuth2: []
       responses:
         '200':
           description: list of authors
@@ -318,7 +388,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Author'
-  /visitor:
+  /visitor/emprunt:
     put:
       tags:
         - Visitor
@@ -331,6 +401,8 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/Visitor'
+      security:
+        - OAuth2: [admin]
       responses:
         '200':
           description: The list of created or updated author
@@ -340,33 +412,157 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Author'
-    get:
+  /visitor/giveBack:
+    put:
       tags:
-        - Books 
-      summary: get list of book
-      operationId: getBook
-      parameters:
-        - in: path
-          name: size
-          required: true
-          description: get an book by page and size
-          schema:
-            $ref: '#/components/parameters/pathPagination/schema/properties/size' 
-        - in: path
-          name: page
-          required: true
-          description: get an book by page and size
-          schema:
-            $ref: '#/components/parameters/pathPagination/schema/properties/page' 
+        - Visitor
+      summary: make a change on borrowing or on giving back book
+      operationId: borrowBack
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Visitor'
+      security:
+        - OAuth2: [admin]
       responses:
         '200':
-          description: The list of author imported
+          description: The list of created or updated author
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Book"
+                  $ref: '#/components/schemas/Author'
+  
+
+    
+  /visitor/{idVisitor}/emprunt:
+    get:
+      tags:
+        - Visitor
+      summary: get visitor emprunt per page
+      operationId: getVisitorEmpruntPerPage
+      parameters:
+        - in: path
+          name: size
+          required: true
+          description: get an visitor by page and size
+          schema:
+            $ref: '#/components/parameters/pathPagination/schema/properties/size' 
+        - in: path
+          name: page
+          required: true
+          description: get an visitor by page and size
+          schema:
+            $ref: '#/components/parameters/pathPagination/schema/properties/page' 
+        - in: path
+          name: idVisitor
+          required: true
+          description: get an visitor's book
+          schema:
+            $ref: '#/components/schemas/Visitor/properties/id' 
+        - in: query
+          name: firstDate
+          description: first date, if it is not given last date will be null
+          required: false
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: lastDate
+          description: last date, if it is not given first date will be null
+          required: false
+          schema:
+            type: string
+            format: date
+      security:
+        - OAuth2: [admin]
+      responses:
+        '200':
+          description: list of emprunt of visitor's book
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/responses/properties/400"
+        '403':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/responses/properties/403"
+        '500':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/responses/properties/500"
+  /visitor/{idVisitor}/giveBack:
+    get:
+      tags:
+        - Visitor
+      summary: get visitor per page
+      operationId: getVisitorPerPage
+      parameters:
+        - in: path
+          name: size
+          required: true
+          description: get an visitor by page and size
+          schema:
+            $ref: '#/components/parameters/pathPagination/schema/properties/size' 
+        - in: path
+          name: page
+          required: true
+          description: get an visitor by page and size
+          schema:
+            $ref: '#/components/parameters/pathPagination/schema/properties/page' 
+        - in: path
+          name: idVisitor
+          required: true
+          description: get an visitor's book
+          schema:
+            $ref: '#/components/schemas/Visitor/properties/id' 
+        - in: query
+          name: firstDate
+          description: first date, if it is not given last date will be null
+          required: false
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: lastDate
+          description: last date, if it is not given first date will be null
+          required: false
+          schema:
+            type: string
+            format: date
+      security:
+        - OAuth2: [admin]
+      responses:
+        '200':
+          description: list of book given back by visitor
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
         '400':
           description: error
           content:
@@ -393,6 +589,15 @@ paths:
                   $ref: "#/components/schemas/responses/properties/500"
 
 components:
+  securitySchemes:
+      OAuth2:
+        type: oauth2
+        flows:
+          implicit:
+            authorizationUrl: https://example.com/oauth/authorize
+            scopes:
+              admin: Administrator access 
+              visitor: visitor access
   schemas:
     Book:
       type: object
@@ -535,7 +740,6 @@ components:
             allOf:
               - $ref: '#/components/schemas/ServerError'
 
-    
   parameters:
     queryPagination:
       name: queryPagination
