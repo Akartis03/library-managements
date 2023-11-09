@@ -39,6 +39,8 @@ paths:
         - in: query
           name: queryPagination
           $ref: '#/components/parameters/queryPagination'
+      security:
+        - OAuth2: []
       responses:
         '200':
           description: The list of filtered books
@@ -61,6 +63,8 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/crupdateBook'
+      security:
+        - OAuth2: [admin]
       responses:
         '200':
           description: The list of created or updated books
@@ -88,6 +92,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/importBookEXCEL'
+      security:
+        - OAuth2: [admin]
       responses:
         '200':
           description: The list of books imported
@@ -139,6 +145,8 @@ paths:
           description: get an book by page and size
           schema:
             $ref: '#/components/parameters/pathPagination/schema/properties/page' 
+      security:
+        - OAuth2: [admin]
       responses:
         '200':
           description: The list of author imported
@@ -191,7 +199,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/importAuthorEXCEL'
-
+      security:
+        - OAuth2: [admin]
       responses:
         '200':
           description: The list of author imported
@@ -286,6 +295,8 @@ paths:
           required: false
           schema: 
             type: string
+      security:
+        - OAuth2: []
       responses:
         '200':
           description: List of author
@@ -308,6 +319,8 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/Author'
+      security:
+        - OAuth2: [admin]
       responses:
         '200':
           description: The list of created or updated author
@@ -325,6 +338,8 @@ paths:
       responses:
         '200':
           description: All authors are deleted
+      security:
+        - OAuth2: [admin]
   /authors/{aId}:
     delete:
       tags:
@@ -338,6 +353,8 @@ paths:
           required: true
           schema: 
             type: string
+      security:
+        - OAuth2: [admin]
       responses:
         '200':
           description: author is deleted
@@ -360,6 +377,8 @@ paths:
           description: get an author by page and size
           schema:
             $ref: '#/components/parameters/pathPagination/schema/properties/page' 
+      security:
+        - OAuth2: []
       responses:
         '200':
           description: list of authors
@@ -382,6 +401,8 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/Visitor'
+      security:
+        - OAuth2: [admin]
       responses:
         '200':
           description: The list of created or updated author
@@ -404,6 +425,8 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/Visitor'
+      security:
+        - OAuth2: [admin]
       responses:
         '200':
           description: The list of created or updated author
@@ -441,6 +464,8 @@ paths:
           description: get an visitor's book
           schema:
             $ref: '#/components/schemas/Visitor/properties/id' 
+      security:
+        - OAuth2: [admin]
       responses:
         '200':
           description: list of emprunt of visitor's book
@@ -499,6 +524,8 @@ paths:
           description: get an visitor's book
           schema:
             $ref: '#/components/schemas/Visitor/properties/id' 
+      security:
+        - OAuth2: [admin]
       responses:
         '200':
           description: list of book given back by visitor
@@ -684,9 +711,6 @@ components:
             type: object
             allOf:
               - $ref: '#/components/schemas/ServerError'
- 
-
-# for test
 
   parameters:
     queryPagination:
