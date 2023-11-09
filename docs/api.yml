@@ -121,6 +121,57 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/responses/properties/500"
+    get:
+      tags:
+        - Books 
+      summary: get list of book
+      operationId: getBook
+      parameters:
+        - in: path
+          name: size
+          required: true
+          description: get an book by page and size
+          schema:
+            $ref: '#/components/parameters/pathPagination/schema/properties/size' 
+        - in: path
+          name: page
+          required: true
+          description: get an book by page and size
+          schema:
+            $ref: '#/components/parameters/pathPagination/schema/properties/page' 
+      responses:
+        '200':
+          description: The list of author imported
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Book"
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/responses/properties/400"
+        '403':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/responses/properties/403"
+        '500':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/responses/properties/500"
 
   /author/import:
     post:
@@ -318,7 +369,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Author'
-  /visitor:
+  /visitor/emprunt:
     put:
       tags:
         - Visitor
@@ -340,33 +391,123 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Author'
-    get:
+  /visitor/giveBack:
+    put:
       tags:
-        - Books 
-      summary: get list of book
-      operationId: getBook
-      parameters:
-        - in: path
-          name: size
-          required: true
-          description: get an book by page and size
-          schema:
-            $ref: '#/components/parameters/pathPagination/schema/properties/size' 
-        - in: path
-          name: page
-          required: true
-          description: get an book by page and size
-          schema:
-            $ref: '#/components/parameters/pathPagination/schema/properties/page' 
+        - Visitor
+      summary: make a change on borrowing or on giving back book
+      operationId: borrowBack
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Visitor'
       responses:
         '200':
-          description: The list of author imported
+          description: The list of created or updated author
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/Book"
+                  $ref: '#/components/schemas/Author'
+  
+
+    
+  /visitor/{idVisitor}/emprunt:
+    get:
+      tags:
+        - Visitor
+      summary: get visitor per page
+      operationId: getVisitorPerPage
+      parameters:
+        - in: path
+          name: size
+          required: true
+          description: get an visitor by page and size
+          schema:
+            $ref: '#/components/parameters/pathPagination/schema/properties/size' 
+        - in: path
+          name: page
+          required: true
+          description: get an visitor by page and size
+          schema:
+            $ref: '#/components/parameters/pathPagination/schema/properties/page' 
+        - in: path
+          name: idVisitor
+          required: true
+          description: get an visitor's book
+          schema:
+            $ref: '#/components/schemas/Visitor/properties/id' 
+      responses:
+        '200':
+          description: list of emprunt of visitor's book
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/responses/properties/400"
+        '403':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/responses/properties/403"
+        '500':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/responses/properties/500"
+  /visitor/{idVisitor}/giveBack:
+    get:
+      tags:
+        - Visitor
+      summary: get visitor per page
+      operationId: getVisitorPerPage
+      parameters:
+        - in: path
+          name: size
+          required: true
+          description: get an visitor by page and size
+          schema:
+            $ref: '#/components/parameters/pathPagination/schema/properties/size' 
+        - in: path
+          name: page
+          required: true
+          description: get an visitor by page and size
+          schema:
+            $ref: '#/components/parameters/pathPagination/schema/properties/page' 
+        - in: path
+          name: idVisitor
+          required: true
+          description: get an visitor's book
+          schema:
+            $ref: '#/components/schemas/Visitor/properties/id' 
+      responses:
+        '200':
+          description: list of book given back by visitor
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
         '400':
           description: error
           content:
@@ -543,6 +684,7 @@ components:
             type: object
             allOf:
               - $ref: '#/components/schemas/ServerError'
+ 
 
 # for test
 
