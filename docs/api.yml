@@ -362,6 +362,8 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Author'
+  
+
     get:
       tags:
         - Books 
@@ -389,6 +391,64 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/Book"
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/responses/properties/400"
+        '403':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/responses/properties/403"
+        '500':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/responses/properties/500"
+  /visitor/{idVisitor}/emprunt:
+    get:
+      tags:
+        - Visitor
+      summary: get author per page
+      operationId: getAuthorPerPage
+      parameters:
+        - in: path
+          name: size
+          required: true
+          description: get an author by page and size
+          schema:
+            $ref: '#/components/parameters/pathPagination/schema/properties/size' 
+        - in: path
+          name: page
+          required: true
+          description: get an author by page and size
+          schema:
+            $ref: '#/components/parameters/pathPagination/schema/properties/page' 
+        - in: path
+          name: idVisitor
+          required: true
+          description: get an visitor's book
+          schema:
+            $ref: '#/components/schemas/Visitor/properties/id' 
+      responses:
+        '200':
+          description: list of authors
+          content:
+            application/json:
+              schema: 
+                type: array
+                items:
+                  $ref: '#/components/schemas/Book'
         '400':
           description: error
           content:
