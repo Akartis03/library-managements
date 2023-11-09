@@ -443,8 +443,8 @@ paths:
     get:
       tags:
         - Visitor
-      summary: get visitor per page
-      operationId: getVisitorPerPage
+      summary: get visitor emprunt per page
+      operationId: getVisitorEmpruntPerPage
       parameters:
         - in: path
           name: size
@@ -464,6 +464,20 @@ paths:
           description: get an visitor's book
           schema:
             $ref: '#/components/schemas/Visitor/properties/id' 
+        - in: query
+          name: firstDate
+          description: first date, if it is not given last date will be null
+          required: false
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: lastDate
+          description: last date, if it is not given first date will be null
+          required: false
+          schema:
+            type: string
+            format: date
       security:
         - OAuth2: [admin]
       responses:
@@ -524,6 +538,20 @@ paths:
           description: get an visitor's book
           schema:
             $ref: '#/components/schemas/Visitor/properties/id' 
+        - in: query
+          name: firstDate
+          description: first date, if it is not given last date will be null
+          required: false
+          schema:
+            type: string
+            format: date
+        - in: query
+          name: lastDate
+          description: last date, if it is not given first date will be null
+          required: false
+          schema:
+            type: string
+            format: date
       security:
         - OAuth2: [admin]
       responses:
