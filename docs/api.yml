@@ -390,6 +390,8 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/Visitor'
+      security:
+        - OAuth2: [admin]
       responses:
         '200':
           description: The list of created or updated author
@@ -412,6 +414,8 @@ paths:
               type: array
               items:
                 $ref: '#/components/schemas/Visitor'
+      security:
+        - OAuth2: [admin]
       responses:
         '200':
           description: The list of created or updated author
@@ -449,6 +453,8 @@ paths:
           description: get an visitor's book
           schema:
             $ref: '#/components/schemas/Visitor/properties/id' 
+      security:
+        - OAuth2: [admin]
       responses:
         '200':
           description: list of emprunt of visitor's book
@@ -507,6 +513,8 @@ paths:
           description: get an visitor's book
           schema:
             $ref: '#/components/schemas/Visitor/properties/id' 
+      security:
+        - OAuth2: [admin]
       responses:
         '200':
           description: list of book given back by visitor
