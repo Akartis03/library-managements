@@ -1,10 +1,10 @@
 openapi: 3.0.3
 info:
   title: Library API
-  version: 1.2.0
+  version: 1.3.0
   description: STD22098
 servers:
-  - url: https://petstore.swagger.io/?url=https://raw.githubusercontent.com/Tombosoa/library-management/oas-td2-std22098/docs/api.yml
+  - url: https://petstore.swagger.io/?url=https://raw.githubusercontent.com/Tombosoa/library-management/oas-td3-std22098/docs/api.yml
 tags:
   - name: Books
   - name: Author
@@ -81,7 +81,12 @@ paths:
             schema: 
               type: array
               items:
-                $ref: '#/components/schemas/importBook'
+                $ref: '#/components/schemas/importBookJSON'
+          application/vnd.openxmlformats-officedocument.spreadsheethtml.sheet:
+              schema: 
+                type: array
+                items:
+                  $ref: '#/components/schemas/importBookEXCEL'
       responses:
         '200':
           description: The list of books imported
@@ -128,7 +133,13 @@ paths:
             schema: 
               type: array
               items:
-                $ref: '#/components/schemas/importAuthor'
+                $ref: '#/components/schemas/importAuthorJSON'
+          application/vnd.openxmlformats-officedocument.spreadsheethtml.sheet:
+              schema: 
+                type: array
+                items:
+                  $ref: '#/components/schemas/importAuthorEXCEL'
+
       responses:
         '200':
           description: The list of author imported
@@ -389,18 +400,31 @@ components:
       allOf:
         - $ref: '#/components/schemas/Exception'
 
-    importAuthor:
+    importAuthorJSON:
       type: object
       properties:
         authorName:
           type: string
         sex:
           $ref: '#/components/schemas/Sex'
-    importBook:
+    importBookJSON:
       type: object
       properties:
         allOf:
           $ref: '#/components/schemas/crupdateBook'
+    importAuthorEXCEL:
+      type: object
+      properties:
+        authorName:
+          type: string
+        sex:
+          $ref: '#/components/schemas/Sex'
+    importBookEXCEL:
+      type: object
+      properties:
+        allOf:
+          $ref: '#/components/schemas/crupdateBook'
+
 
     responses:
         type: object
