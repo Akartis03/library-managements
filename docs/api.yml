@@ -534,6 +534,15 @@ paths:
                   $ref: "#/components/schemas/responses/properties/500"
 
 components:
+  securitySchemes:
+      OAuth2:
+        type: oauth2
+        flows:
+          implicit:
+            authorizationUrl: https://example.com/oauth/authorize
+            scopes:
+              admin: Administrator access 
+              visitor: visitor access
   schemas:
     Book:
       type: object
