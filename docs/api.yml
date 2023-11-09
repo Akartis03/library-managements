@@ -535,7 +535,8 @@ components:
             allOf:
               - $ref: '#/components/schemas/ServerError'
 
-    
+# for test
+
   parameters:
     queryPagination:
       name: queryPagination
