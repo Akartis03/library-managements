@@ -340,6 +340,57 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/Author'
+    get:
+      tags:
+        - Books 
+      summary: get list of book
+      operationId: getBook
+      parameters:
+        - in: path
+          name: size
+          required: true
+          description: get an book by page and size
+          schema:
+            $ref: '#/components/parameters/pathPagination/schema/properties/size' 
+        - in: path
+          name: page
+          required: true
+          description: get an book by page and size
+          schema:
+            $ref: '#/components/parameters/pathPagination/schema/properties/page' 
+      responses:
+        '200':
+          description: The list of author imported
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Book"
+        '400':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/responses/properties/400"
+        '403':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/responses/properties/403"
+        '500':
+          description: error
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/responses/properties/500"
 
 components:
   schemas:
