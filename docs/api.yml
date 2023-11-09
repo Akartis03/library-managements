@@ -335,6 +335,15 @@ components:
           type: string
         sex: 
           $ref: "#/components/schemas/Sex"
+    Visitor:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        reference:
+          type: string
     Sex:
       type: string
       enum: 
