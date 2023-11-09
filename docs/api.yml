@@ -39,6 +39,8 @@ paths:
         - in: query
           name: queryPagination
           $ref: '#/components/parameters/queryPagination'
+      security:
+        - OAuth2: []
       responses:
         '200':
           description: The list of filtered books
@@ -139,6 +141,8 @@ paths:
           description: get an book by page and size
           schema:
             $ref: '#/components/parameters/pathPagination/schema/properties/page' 
+      security:
+        - OAuth2: []
       responses:
         '200':
           description: The list of author imported
@@ -286,6 +290,8 @@ paths:
           required: false
           schema: 
             type: string
+      security:
+        - OAuth2: []
       responses:
         '200':
           description: List of author
@@ -360,6 +366,8 @@ paths:
           description: get an author by page and size
           schema:
             $ref: '#/components/parameters/pathPagination/schema/properties/page' 
+      security:
+        - OAuth2: []
       responses:
         '200':
           description: list of authors
@@ -684,9 +692,6 @@ components:
             type: object
             allOf:
               - $ref: '#/components/schemas/ServerError'
- 
-
-# for test
 
   parameters:
     queryPagination:
